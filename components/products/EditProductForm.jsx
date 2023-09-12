@@ -14,7 +14,10 @@ import {
   // Typography,
 } from "@material-tailwind/react";
 import Swal from "sweetalert2";
-
+//redux//
+import { useSelector, useDispatch } from 'react-redux';
+import {fetchTopicsItems} from "@/app/GlobalRedux/actions/getTopics"
+//redux//
 const style = {
   position: "absolute",
   top: "50%",
@@ -28,7 +31,9 @@ const style = {
 };
 const EditProductForm = ({ item, onChangeN }) => {
   const ApiUrl = process.env.NEXT_PUBLIC_API_URL;
-
+       //redux//
+       const dispatch = useDispatch();
+       //redux//
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -66,6 +71,7 @@ useEffect(()=>{
         throw new Error("Failed to update topic");
       }
       onChangeN(res);
+      dispatch(fetchTopicsItems())
       handleClose();
       showSuccessAlert("Done")
     } catch (error) {

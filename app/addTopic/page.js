@@ -3,30 +3,16 @@ import ADDProductForm from "@/components/products/ADDProductForm";
 import { Suspense, useEffect, useState } from "react";
 import TopicCard from "@/components/cards/TopicCard";
 const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+import useFetch from "@/hooks/useFetch";
+
+// //redux//
+// import { useSelector, useDispatch } from "react-redux";
+import { fetchTopicsItems } from "../GlobalRedux/actions/getTopics";
+// //redux//
+import { useReduxAction } from "../../hooks/useReduxAction";
 export default function AddTopic() {
-  const [topics, setTopics] = useState([]);
-  const [topicsLoading, setTopicsLoading] = useState(false);
   const [topicsChanged, setChanged] = useState([]);
-
-  async function fetchData() {
-    setTopicsLoading(true);
-    try {
-      const res = await fetch(`${NEXT_PUBLIC_API_URL}/topics`);
-      if (!res.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const { topics } = await res.json();
-      setTopics(topics);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    } finally {
-      setTopicsLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    fetchData();
-  }, [topicsChanged]);
 
   const onChange = (value) => {
     setChanged(value);
@@ -34,16 +20,45 @@ export default function AddTopic() {
 
   // const loadingJsx=(<div>loading+++++</div>)
 
+  const { data, loading, error } = useFetch(
+    `${NEXT_PUBLIC_API_URL}/topics`,
+    topicsChanged
+  );
+
+  console.log(data, loading, "useFetch");
+
+  // //redux//
+  // const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   dispatch(fetchTopicsItems());
+  // }, [dispatch]);
+  // const {
+  //   loading: isLoading,
+  //   data: itemsData,
+  //   // error: fetchError,
+  // } = useSelector((state) => state.topics);
+  // console.log(itemsData, isLoading, "useRedux");
+  // //redux//
+  const { isLoading, itemsData, fetchError } = useReduxAction(
+    fetchTopicsItems,
+    (state) => state.topics,
+    "isLoading",
+    "itemsData",
+    "fetchError"
+  );
+  console.log(itemsData, isLoading, "useRedux");
+
   return (
     <>
       <ADDProductForm onChange={onChange} />
 
       {/* <Suspense fallback={loadingJsx}>   */}
       <div className="flex flex-wrap justify-center gap-5">
-        {topicsLoading ? (
+        {loading ? (
           <div>Loading ...</div>
         ) : (
-          <TopicCard topics={topics} onChange={onChange} />
+          <TopicCard topics={itemsData.topics} onChange={onChange} />
         )}
       </div>
 

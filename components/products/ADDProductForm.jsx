@@ -4,11 +4,18 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
+//redux//
+import { useSelector, useDispatch } from 'react-redux';
+import {fetchTopicsItems} from "@/app/GlobalRedux/actions/getTopics"
+//redux//
 const ADDProductForm = ({onChange}) => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const router = useRouter();
-
+      //redux//
+      const dispatch = useDispatch();
+      //redux//
+      
     const handleSubmit = async (e) => {
         e.preventDefault();
     
@@ -29,6 +36,7 @@ const ADDProductForm = ({onChange}) => {
           if (res.ok) {
             // router.push("/");
             onChange(res)
+            dispatch(fetchTopicsItems())
           } else {
             throw new Error("Failed to create a topic");
           }
@@ -36,6 +44,9 @@ const ADDProductForm = ({onChange}) => {
           console.log(error);
         }
       };
+
+
+
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-3">
     <input

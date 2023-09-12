@@ -4,9 +4,16 @@ import React from "react";
 import EditProductForm from "../products/EditProductForm";
 import Icon from '@mdi/react';
 import { mdiDelete } from '@mdi/js';
+//redux//
+import { useSelector, useDispatch } from 'react-redux';
+import {fetchTopicsItems} from "@/app/GlobalRedux/actions/getTopics"
+//redux//
 const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const TopicCard = ({ topics,onChange }) => {
+       //redux//
+       const dispatch = useDispatch();
+       //redux//
   const handleDelete = async (id)=>{
 
       const confirmed = confirm("Are you sure?");
@@ -18,6 +25,7 @@ const TopicCard = ({ topics,onChange }) => {
   
         if (res.ok) {
           onChange(res)
+          dispatch(fetchTopicsItems())
         }
       }
 
