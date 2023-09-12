@@ -8,7 +8,7 @@ const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
 import { useSelector, useDispatch } from 'react-redux';
 import {fetchTopicsItems} from "@/app/GlobalRedux/actions/getTopics"
 //redux//
-const ADDProductForm = ({onChange}) => {
+const ADDProductForm = () => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const router = useRouter();
@@ -35,7 +35,6 @@ const ADDProductForm = ({onChange}) => {
     
           if (res.ok) {
             // router.push("/");
-            onChange(res)
             dispatch(fetchTopicsItems())
           } else {
             throw new Error("Failed to create a topic");

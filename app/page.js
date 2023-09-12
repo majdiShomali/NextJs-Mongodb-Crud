@@ -2,10 +2,16 @@ import React from "react";
 import HeroSection from "@/components/home/HeroSection";
 import TopicCard from "@/components/cards/TopicCard";
 
+const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 const getTopics = async () => {
   try {
-    const res = await fetch("http://localhost:3000/api/topics", {
-      cache: "no-store",
+    const res = await fetch(`${NEXT_PUBLIC_API_URL}/topics/0/[1,5]`, {
+      // cache:"force-cache",//SSG getStaticSideProps
+      // cache: "no-store", //SSR getServerSideProps
+      next:{
+       revalidate:20 //ISR===== ssr with sec
+      },
     });
 
     if (!res.ok) {
@@ -19,15 +25,21 @@ const getTopics = async () => {
 };
 
 const Home = async () => {
-  const { topics } = await getTopics();
+  const { topics,totalPages } = await getTopics();
+
   return (
     <>
       <HeroSection />
       <div className="bg-gray-100 flex flex-wrap justify-center items-center gap-5 h-screen">
         <TopicCard topics={topics} />
       </div>
+
+      
+   
     </>
   );
 };
 
 export default Home;
+
+

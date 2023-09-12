@@ -29,7 +29,7 @@ export function StickyNavbar() {
         color="blue-gray"
         className="p-1 font-normal"
       >
-        <Link href="/addTopic" className="flex items-center">
+        <Link href="/topics/addTopic" className="flex items-center">
          Topics
         </Link>
       </Typography>
@@ -39,9 +39,9 @@ export function StickyNavbar() {
         color="blue-gray"
         className="p-1 font-normal"
       >
-        <a href="#" className="flex items-center">
-          Account
-        </a>
+        <Link href="/allTopics?page=1&search=_" className="flex items-center">
+        all Topics
+        </Link>
       </Typography>
       <Typography
         as="li"

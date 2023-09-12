@@ -13,10 +13,21 @@ export async function POST(request) {
   return NextResponse.json({ message: "Topic Created" }, { status: 201 });
 }
 
-export async function GET() {
-  await connectMongoDB();
-  const topics = await Topic.find();
-  return NextResponse.json({ topics });
+export async function GET(request, { params }) {
+  const page = params ? parseInt((JSON.parse(params.num))[0]) : 1;
+  const perPage = params ? parseInt((JSON.parse(params.num))[1]) : 5;
+
+  // Fetch the total number of topics
+  const totalTopics = await Topic.countDocuments();
+
+  const topics = await Topic.find()
+    .skip((page - 1) * perPage)
+    .limit(perPage);
+
+  // Calculate the total number of pages
+  const totalPages = Math.ceil(totalTopics / perPage);
+
+  return NextResponse.json({ topics, totalPages });
 }
 
 export async function DELETE(request) {

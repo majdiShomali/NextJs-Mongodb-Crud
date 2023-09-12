@@ -29,7 +29,7 @@ const style = {
   boxShadow: 3,
   p: 4,
 };
-const EditProductForm = ({ item, onChangeN }) => {
+const EditProductForm = ({ item }) => {
   const ApiUrl = process.env.NEXT_PUBLIC_API_URL;
        //redux//
        const dispatch = useDispatch();
@@ -70,7 +70,6 @@ useEffect(()=>{
       if (!res.ok) {
         throw new Error("Failed to update topic");
       }
-      onChangeN(res);
       dispatch(fetchTopicsItems())
       handleClose();
       showSuccessAlert("Done")

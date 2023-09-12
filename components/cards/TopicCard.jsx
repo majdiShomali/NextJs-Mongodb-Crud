@@ -7,10 +7,11 @@ import { mdiDelete } from '@mdi/js';
 //redux//
 import { useSelector, useDispatch } from 'react-redux';
 import {fetchTopicsItems} from "@/app/GlobalRedux/actions/getTopics"
+import Link from "next/link";
 //redux//
 const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-const TopicCard = ({ topics,onChange }) => {
+const TopicCard = ({ topics }) => {
        //redux//
        const dispatch = useDispatch();
        //redux//
@@ -24,32 +25,31 @@ const TopicCard = ({ topics,onChange }) => {
         });
   
         if (res.ok) {
-          onChange(res)
           dispatch(fetchTopicsItems())
         }
       }
 
   }
 
-  const onChangeN =(value)=>{
-    onChange(value)
-  }
   return (
     <>
       {topics?.map((topic) => {
         return (
+          <Link href={`/topics/${topic._id}`}>
+         
           <Card key={topic._id}
-          
+          className="hover:scale-105 cursor-pointer"
            >
             <div className=" w-full flex justify-around">
 
             <Icon path={mdiDelete}  onClick={()=>handleDelete(topic._id)} color={"red"} size={1.5}/>
-            <EditProductForm item={topic} onChangeN={onChangeN}/>
+            <EditProductForm item={topic} />
             </div>
             <h1>{topic.description}</h1>
             <h1>{topic.title}</h1>
             <h1>{topic._id}</h1>
           </Card>
+          </Link>
         );
       })}
     </>
