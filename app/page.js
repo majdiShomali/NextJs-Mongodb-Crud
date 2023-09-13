@@ -4,6 +4,7 @@ import TopicCard from "@/components/cards/TopicCard";
 
 const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
+
 const getTopics = async () => {
   try {
     const res = await fetch(`${NEXT_PUBLIC_API_URL}/topics/0/[1,5]`, {
