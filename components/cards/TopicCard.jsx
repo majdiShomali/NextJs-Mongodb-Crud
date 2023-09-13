@@ -35,7 +35,8 @@ const TopicCard = ({ topics }) => {
     <>
       {topics?.map((topic) => {
         return (
-          <Link href={`/topics/${topic._id}`}>
+          <>
+           {/* <Link href={`/topics/${topic._id}`}> */}
          
           <Card key={topic._id}
           className="hover:scale-105 cursor-pointer"
@@ -49,7 +50,8 @@ const TopicCard = ({ topics }) => {
             <h1>{topic.title}</h1>
             <h1>{topic._id}</h1>
           </Card>
-          </Link>
+          {/* </Link> */}
+          </>
         );
       })}
     </>

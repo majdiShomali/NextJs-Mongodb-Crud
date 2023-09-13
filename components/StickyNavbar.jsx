@@ -39,7 +39,7 @@ export function StickyNavbar() {
         color="blue-gray"
         className="p-1 font-normal"
       >
-        <Link href="/allTopics?page=1&search=_" className="flex items-center">
+        <Link href="/allTopics?page=1&search=" className="flex items-center">
         all Topics
         </Link>
       </Typography>

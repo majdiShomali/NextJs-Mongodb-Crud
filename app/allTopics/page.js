@@ -2,11 +2,11 @@ import React from 'react'
 import TopicCard from '@/components/cards/TopicCard'
 import Link from 'next/link'
 import clsx from 'clsx'
+import SearchInput from '@/components/input/SearchInput'
 const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const getTopics = async (page,limit,searchWord) => {
   try {
-    console.log(typeof searchWord,"-------------")
     const res = await fetch(`${NEXT_PUBLIC_API_URL}/topics/0/[${page},${limit},"${searchWord.toString()}"]`, {
       // cache:"force-cache",//SSG getStaticSideProps
       // cache: "no-store", //SSR getServerSideProps
@@ -26,13 +26,11 @@ const getTopics = async (page,limit,searchWord) => {
 };
 
 const AllTopics = async({searchParams}) => {
-    // console.log(searchParams.page)
-    // console.log(searchParams.search)
     const page =parseInt(searchParams.page)
     const { topics,totalPages } = await getTopics(searchParams.page,2,searchParams.search);
-// console.log(searchParams)
   return (
     <>
+    <SearchInput page={searchParams.page} perPage={2}/>
      <div className='flex space-x-6'>
             <Link
             href={`/allTopics?page=${page >1 ?page -1 :1}&search=${"_"}`}
